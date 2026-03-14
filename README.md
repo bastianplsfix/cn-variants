@@ -1,11 +1,11 @@
-# cnxv
+# cn-variants
 
 Tiny utilities for working with Tailwind CSS class names. Combines [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) with a typed `variants` helper.
 
 ## Install
 
 ```bash
-npm install cnxv
+npm install cn-variants
 ```
 
 ## `cn(...inputs)`
@@ -13,7 +13,7 @@ npm install cnxv
 Merges class names using clsx and tailwind-merge. Handles conditionals, duplicates, and Tailwind conflicts.
 
 ```ts
-import { cn } from "cnxv";
+import { cn } from "cn-variants";
 
 cn("px-4 py-2", "px-6");
 // → "py-2 px-6"
@@ -27,7 +27,7 @@ cn("text-red-500", isActive && "text-blue-500");
 Creates a typed lookup function for Tailwind class variants. Returns `""` for unknown keys at runtime, relying on TypeScript for compile-time safety.
 
 ```ts
-import { cn, variants } from "cnxv";
+import { cn, variants } from "cn-variants";
 
 const buttonVariant = variants({
   primary: "bg-indigo-600 text-white border-none",
