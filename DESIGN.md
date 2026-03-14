@@ -1,14 +1,14 @@
-# cn-v Design Decisions
+# cxv Design Decisions
 
-This document captures the reasoning behind each API choice in cn-v.
+This document captures the reasoning behind each API choice in cxv.
 
 ## Why this exists
 
-Every Tailwind component library ends up with two things: a `cn()` function for merging classes, and some pattern for managing variant styles (primary/secondary, sm/md/lg). Libraries like CVA and tailwind-variants solve this, but they bring a lot of API surface (compound variants, slots, responsive variants, default variants) that most components never use. cn-v is the minimal version: just a typed lookup function on top of the `cn` you already have.
+Every Tailwind component library ends up with two things: a `cn()` function for merging classes, and some pattern for managing variant styles (primary/secondary, sm/md/lg). Libraries like CVA and tailwind-variants solve this, but they bring a lot of API surface (compound variants, slots, responsive variants, default variants) that most components never use. cxv is the minimal version: just a typed lookup function on top of the `cn` you already have.
 
 ## Why `cn` uses full clsx (not clsx/lite)
 
-clsx/lite only accepts strings and falsy values. No objects, no arrays. It's 99 bytes smaller. We considered it, but cn-v is a general-purpose utility. Users expect `cn({ "text-red-500": hasError })` to work because that's what clsx does. Shipping a `cn` that silently drops objects would be a footgun. The 99-byte saving isn't worth the confusion.
+clsx/lite only accepts strings and falsy values. No objects, no arrays. It's 99 bytes smaller. We considered it, but cxv is a general-purpose utility. Users expect `cn({ "text-red-500": hasError })` to work because that's what clsx does. Shipping a `cn` that silently drops objects would be a footgun. The 99-byte saving isn't worth the confusion.
 
 ## Why `variants` is a function, not an object
 

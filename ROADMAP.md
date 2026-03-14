@@ -1,4 +1,4 @@
-# cn-v Roadmap
+# cxv Roadmap
 
 Possible additions and changes under consideration. Nothing here is committed to.
 
@@ -99,7 +99,7 @@ This way the mirror object is never built unless someone accesses `.key`. The tr
 tailwind-merge supports custom configs for projects with Tailwind plugins that add new utilities (e.g. `animate-*` from a custom plugin). Currently `cn` hardcodes the default `twMerge`. A factory function would let users pass their own config:
 
 ```ts
-import { createCn } from "cn-v";
+import { createCn } from "cxv";
 import { extendTailwindMerge } from "tailwind-merge";
 
 const twMerge = extendTailwindMerge({
@@ -132,14 +132,14 @@ If added, the default `cn` should remain unchanged (zero-config). `createCn` wou
 Users who write wrapper functions around `cn` need the `ClassValue` type:
 
 ```ts
-import { type ClassValue, cn } from "cn-v";
+import { type ClassValue, cn } from "cxv";
 
 function card(...classes: ClassValue[]) {
   return cn("rounded-lg shadow-md", ...classes);
 }
 ```
 
-Currently they have to install clsx separately just for the type import, even though cn-v already depends on it. Re-exporting `ClassValue` from the package entry point would fix this.
+Currently they have to install clsx separately just for the type import, even though cxv already depends on it. Re-exporting `ClassValue` from the package entry point would fix this.
 
 ### Arguments for
 
@@ -147,7 +147,7 @@ It's a type-only re-export. Zero runtime cost, zero bundle impact. Saves users f
 
 ### Arguments against
 
-It couples cn-v's public API to clsx's type names. If clsx renames or restructures `ClassValue` in a future major, cn-v would need to absorb that as a breaking change or shim it. That said, `ClassValue` has been stable across every clsx major so far.
+It couples cxv's public API to clsx's type names. If clsx renames or restructures `ClassValue` in a future major, cxv would need to absorb that as a breaking change or shim it. That said, `ClassValue` has been stable across every clsx major so far.
 
 **Recommendation:** Likely worth doing. The cost is near zero and the ergonomic benefit is clear.
 
@@ -155,20 +155,20 @@ It couples cn-v's public API to clsx's type names. If clsx renames or restructur
 
 ## Peer dependencies vs direct dependencies
 
-clsx and tailwind-merge are currently direct dependencies. This means cn-v controls the exact versions installed. An alternative is to make them peer dependencies.
+clsx and tailwind-merge are currently direct dependencies. This means cxv controls the exact versions installed. An alternative is to make them peer dependencies.
 
 ### Direct deps (current)
 
-- Users install `cn-v` and it just works. No version management needed.
+- Users install `cxv` and it just works. No version management needed.
 - Risk of duplicate copies if the consumer also depends on clsx or tailwind-merge directly. Bundlers typically deduplicate, but not always (especially with differing version ranges).
 
 ### Peer deps
 
 - Consumer controls the versions. Only one copy in the tree.
-- Requires users to install three packages instead of one. The "just `npm install cn-v`" story breaks.
-- Version mismatches between cn-v's expectations and the consumer's installed version can cause subtle bugs.
+- Requires users to install three packages instead of one. The "just `npm install cxv`" story breaks.
+- Version mismatches between cxv's expectations and the consumer's installed version can cause subtle bugs.
 
-**Recommendation:** Keep direct dependencies. cn-v is a convenience wrapper. Asking users to manually install and version-match two sub-dependencies undermines the "tiny utility" pitch. Deduplication is the bundler's job.
+**Recommendation:** Keep direct dependencies. cxv is a convenience wrapper. Asking users to manually install and version-match two sub-dependencies undermines the "tiny utility" pitch. Deduplication is the bundler's job.
 
 ---
 
@@ -176,15 +176,15 @@ clsx and tailwind-merge are currently direct dependencies. This means cn-v contr
 
 `cn` and `variants` are independent. `cn` depends on clsx + tailwind-merge. `variants` has zero dependencies. A user who only wants `variants` should not pay the cost of bundling clsx and tailwind-merge.
 
-Currently both are in separate files (`cn.ts`, `variants.ts`) re-exported through `index.ts`. Modern bundlers (Rolldown, esbuild, Rollup) tree-shake named exports from barrel files, so `import { variants } from "cn-v"` should already drop `cn.ts` and its dependencies from the bundle.
+Currently both are in separate files (`cn.ts`, `variants.ts`) re-exported through `index.ts`. Modern bundlers (Rolldown, esbuild, Rollup) tree-shake named exports from barrel files, so `import { variants } from "cxv"` should already drop `cn.ts` and its dependencies from the bundle.
 
-**Action item:** Verify this works in practice by checking the bundle output of a project that only imports `variants`. If barrel-file tree-shaking fails in any common bundler, consider adding a `cn-v/variants` subpath export as a fallback.
+**Action item:** Verify this works in practice by checking the bundle output of a project that only imports `variants`. If barrel-file tree-shaking fails in any common bundler, consider adding a `cxv/variants` subpath export as a fallback.
 
 ---
 
 ## Upstream versioning policy
 
-cn-v depends on clsx and tailwind-merge. When either ships a breaking change, cn-v needs a policy.
+cxv depends on clsx and tailwind-merge. When either ships a breaking change, cxv needs a policy.
 
 ### Patch/minor releases upstream
 
@@ -192,12 +192,12 @@ Absorbed automatically via `^` ranges in `dependencies`. No action needed.
 
 ### Major releases upstream
 
-A new major of tailwind-merge could change merge behavior (e.g. how conflicting utilities are resolved). A new major of clsx could change how inputs are processed. Either would change cn-v's observable behavior without any code change in cn-v itself.
+A new major of tailwind-merge could change merge behavior (e.g. how conflicting utilities are resolved). A new major of clsx could change how inputs are processed. Either would change cxv's observable behavior without any code change in cxv itself.
 
 **Proposed policy:**
 
 - Pin to the current major of each dependency (`"clsx": "^2"`, `"tailwind-merge": "^3"`).
-- When an upstream major ships, test cn-v against it. If behavior changes, release a new cn-v major that bumps the dependency range.
+- When an upstream major ships, test cxv against it. If behavior changes, release a new cxv major that bumps the dependency range.
 - Document supported upstream version ranges in the README.
 
-This keeps cn-v's semver honest: if `cn("px-2", "px-4")` returns a different result because of a tailwind-merge update, that's a breaking change from the consumer's perspective and should be a cn-v major.
+This keeps cxv's semver honest: if `cn("px-2", "px-4")` returns a different result because of a tailwind-merge update, that's a breaking change from the consumer's perspective and should be a cxv major.
