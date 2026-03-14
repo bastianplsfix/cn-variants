@@ -1,5 +1,5 @@
 {
-  "name": "cxv",
+  "name": "cnxv",
   "version": "0.1.0",
   "description": "Tiny utilities for working with Tailwind CSS class names. Combines clsx + tailwind-merge with a typed variants helper.",
   "keywords": [
@@ -9,14 +9,14 @@
     "tailwind-merge",
     "variants"
   ],
-  "homepage": "https://github.com/bastianplsfix/cxv#readme",
+  "homepage": "https://github.com/bastianplsfix/cnxv#readme",
   "bugs": {
-    "url": "https://github.com/bastianplsfix/cxv/issues"
+    "url": "https://github.com/bastianplsfix/cnxv/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bastianplsfix/cxv.git"
+    "url": "git+https://github.com/bastianplsfix/cnxv.git"
   },
   "files": [
     "dist"
