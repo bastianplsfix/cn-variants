@@ -62,13 +62,13 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
-    "@types/node": "^24.13.3",
+    "@types/node": "^26.4.1",
     "clsx": "^2.1.1",
     "playwright": "^1.63.0",
-    "publint": "0.3.21",
+    "publint": "0.3.24",
     "tailwind-merge": "^3.5.0",
-    "typescript": "^5.9.3",
-    "vite-plus": "0.2.5"
+    "typescript": "^7.0.2",
+    "vite-plus": "0.3.0"
   },
   "peerDependencies": {
     "clsx": "^2.1.1",
